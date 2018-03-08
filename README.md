@@ -1,3 +1,3 @@
 # My Twitter
 
-This is my practice.
+This is my practice, for Twitter.
