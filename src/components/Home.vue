@@ -128,6 +128,7 @@ export default {
         password: this.login_password
       }).then((res) => {
         if (res.data.status === true) {
+          localStorage.login_name = this.login_name
           this.$router.push('/MyHomePage')
         } else {
           alert(res.data.err)

@@ -47,13 +47,12 @@
       <div class="row">
         <div class="dashboard dashboard-left col">
           <div class="dashboardProfileCard">
-            <a class="dashboardProfileCard-bg" href=""></a>
+            <a class="dashboardProfileCard-bg" href="###"></a>
 
             <div class="profileCardContainer">
               <div class="avatarContainer">
-                <div id="choosePicture">
+                <div id="choosePicture" @click='uploadAvatar'>
                   <i class="fa fa-camera fa-lg profileCardIcon">
-
                   </i>
                 </div>
               </div>
@@ -81,7 +80,7 @@
             <img src="@/assets/touxiang.jpg" alt="" class="newTwitterBlock-avatar">
             <div class="newTwitterBlock-inputContainer" :class="{shadow2: hidden}">
               <input type="text" class="newTwitterBlock-input" :placeholder="placeholderText" aria-describedby="btnGroupAddon" @blur='showText()'
-            @focus='hideText()'>
+                @focus='hideText()'>
               <div class="previewPictureBlock">
                 <div class="previewPictures">
                   <!-- <img src="@/assets/touxiang.jpg" alt=""> -->
@@ -98,7 +97,23 @@
         </div>
 
         <div class="dashboard dashboard-right col">
-          右边内容
+          <div class="dashboard-right-content">
+            <div class="dashboard-right-header">
+              <h3>推荐关注</h3>
+              <small>.</small>
+              <button class="dashboard-right-button">
+                <small class="dashboard-right-button">
+                  刷新
+                </small>
+              </button>
+              <small>.</small>
+              <button class="dashboard-right-button">
+                <small>
+                  查看全部
+                </small>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -107,6 +122,9 @@
 </template>
 
 <script>
+const axios = require('axios')
+
+console.log($)
 export default {
   data: function () {
     return {
@@ -117,7 +135,33 @@ export default {
     }
   },
 
+  mounted: function () {
+    this.updateAvatar()
+  },
+
   methods: {
+    uploadAvatar () {
+      let input = $('<input type="file">')
+      input.click()
+      input.on('change', () => {
+        let formdata = new FormData()
+        console.log(input[0].files[0])
+        formdata.append('avatar', input[0].files[0])
+        axios.post('/users/avatar', formdata).then(res => {
+          if (res.data.status === true) {
+            this.updateAvatar()
+          } else {
+            alert('图片上传失败：' + res.data.message)
+          }
+        })
+      })
+    },
+
+    updateAvatar () {
+      let random = Math.random()
+      $('#choosePicture').css('backgroundImage', 'url(/users/avatar?name=' + localStorage.login_name + '&' + random + ')')
+    },
+
     search () {
       alert('666！')
     },
@@ -184,11 +228,6 @@ export default {
   .user-Logged-in {
     margin: 0;
     padding: 0;
-  }
-
-  .dashboard {
-    background: #1da1f2;
-    height: 100px;
   }
 
   .content-main {
@@ -315,6 +354,7 @@ export default {
   }
 
   #choosePicture {
+    cursor: pointer;
     height: 70px;
     width: 70px;
     color: #fff;
@@ -464,4 +504,20 @@ export default {
     height: 100px;
     background-color: #fff;
   }
+
+  .dashboard-right-header {
+    display: flex;
+  }
+
+  .dashboard-right-button {
+    outline: none;
+    border: 0;
+    box-shadow: none;
+    /* bgc- */
+  }
+
+  .dashboard-right {
+    background-color: #fff;
+  }
+
 </style>
