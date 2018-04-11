@@ -7,11 +7,8 @@ import 'jquery/dist/jquery.js'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import 'font-awesome/css/font-awesome.min.css'
-// import asdf from './test'
 
 Vue.config.productionTip = false
-
-// Vue.component('test-component', asdf)
 
 /* eslint-disable no-new */
 new Vue({
@@ -20,7 +17,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-// new Vue({
-//   el: '#comp'
-// })
